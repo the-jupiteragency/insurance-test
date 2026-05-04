@@ -166,7 +166,7 @@ export default function ContactSection() {
             <h2 className="text-4xl font-light">
               {content[language as keyof typeof content].title}
             </h2>
-            <div className="space-y-2 text-2xl font-light w-96">
+            <div className="space-y-2 text-xl md:text-2xl font-light max-w-full md:w-96">
               <a href="tel:15759">
                 {content[language as keyof typeof content].phone}
               </a>

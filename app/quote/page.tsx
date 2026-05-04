@@ -163,27 +163,27 @@ export default function QuotePage() {
   }, [state.currentStep, resetTimer]);
 
   // Restore abandoned cart data on page load
-  useEffect(() => {
-    const abandonedData = getAbandonedCart();
-    if (abandonedData && !state.userInfo.full_name && !state.carInfo.make) {
-      updateCarInfo(abandonedData.carInfo as Partial<CarInfo>);
-      updateUserInfo(abandonedData.userInfo as Partial<UserInfo>);
-      toast({
-        title: isRTL ? "تم استعادة البيانات" : "Data Restored",
-        description: isRTL
-          ? "تم استعادة بياناتك السابقة"
-          : "Your previous data has been restored",
-      });
-    }
-  }, [
-    getAbandonedCart,
-    updateCarInfo,
-    updateUserInfo,
-    state.userInfo.full_name,
-    state.carInfo.make,
-    toast,
-    isRTL,
-  ]);
+  // useEffect(() => {
+  //   const abandonedData = getAbandonedCart();
+  //   if (abandonedData && !state.userInfo.full_name && !state.carInfo.make) {
+  //     updateCarInfo(abandonedData.carInfo as Partial<CarInfo>);
+  //     updateUserInfo(abandonedData.userInfo as Partial<UserInfo>);
+  //     toast({
+  //       title: isRTL ? "تم استعادة البيانات" : "Data Restored",
+  //       description: isRTL
+  //         ? "تم استعادة بياناتك السابقة"
+  //         : "Your previous data has been restored",
+  //     });
+  //   }
+  // }, [
+  //   getAbandonedCart,
+  //   updateCarInfo,
+  //   updateUserInfo,
+  //   state.userInfo.full_name,
+  //   state.carInfo.make,
+  //   toast,
+  //   isRTL,
+  // ]);
 
   const validateCarInfo = () => {
     try {
@@ -196,6 +196,16 @@ export default function QuotePage() {
         fieldErrors[err.path[0]] = err.message;
       });
       setErrors(fieldErrors);
+      
+      // Scroll to the first error
+      const firstErrorField = error.errors?.[0]?.path[0];
+      if (firstErrorField) {
+        const element = document.getElementById(`field-${firstErrorField}`);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+      
       return false;
     }
   };
@@ -211,6 +221,16 @@ export default function QuotePage() {
         fieldErrors[err.path[0]] = err.message;
       });
       setErrors(fieldErrors);
+
+      // Scroll to the first error
+      const firstErrorField = error.errors?.[0]?.path[0];
+      if (firstErrorField) {
+        const element = document.getElementById(`field-${firstErrorField}`);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+
       return false;
     }
   };
@@ -524,7 +544,7 @@ export default function QuotePage() {
         </CardHeader>
         <CardContent className="p-8 space-y-8">
           {/* Car Condition */}
-          <div className="space-y-4">
+          <div className="space-y-4" id="field-condition">
             <Label
               className={cn("text-base font-semibold", isRTL && "text-right")}
             >
@@ -563,7 +583,7 @@ export default function QuotePage() {
           </div>
 
           {/* Fuel Type */}
-          <div className="space-y-4">
+          <div className="space-y-4" id="field-fuel_type">
             <Label
               className={cn("text-base font-semibold", isRTL && "text-right")}
             >
@@ -619,7 +639,7 @@ export default function QuotePage() {
 
           {/* Electric Vehicle Dealership Support */}
           {state.carInfo.fuel_type === "electric" && (
-            <div className="space-y-4">
+            <div className="space-y-4" id="field-has_official_dealership">
               <Label
                 className={cn("text-base font-semibold", isRTL && "text-right")}
               >
@@ -678,7 +698,7 @@ export default function QuotePage() {
           )}
 
           {/* Car Make Selection with New Autocomplete */}
-          <div className="space-y-4">
+          <div className="space-y-4" id="field-make">
             <Label
               className={cn(
                 "text-base font-semibold",
@@ -738,7 +758,7 @@ export default function QuotePage() {
           </div>
 
           {/* Car Model Selection */}
-          <div className="space-y-4">
+          <div className="space-y-4" id="field-model">
             <Label
               className={cn(
                 "text-base font-semibold",
@@ -875,7 +895,7 @@ export default function QuotePage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Manufacturing Year */}
-            <div className="space-y-4">
+            <div className="space-y-4" id="field-year">
               <Label
                 className={cn("text-base font-semibold", isRTL && "text-right")}
               >
@@ -918,7 +938,7 @@ export default function QuotePage() {
             </div>
 
             {/* Market Price */}
-            <div className="space-y-4">
+            <div className="space-y-4" id="field-market_price">
               <Label
                 className={cn("text-base font-semibold", isRTL && "text-right")}
               >
@@ -956,7 +976,7 @@ export default function QuotePage() {
           </div>
 
           {/* Insurance Type */}
-          <div className="space-y-4">
+          <div className="space-y-4" id="field-insurance_type">
             <Label
               className={cn("text-base font-semibold", isRTL && "text-right")}
             >
@@ -1037,7 +1057,7 @@ export default function QuotePage() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-8 space-y-6">
-        <div className="space-y-4">
+        <div className="space-y-4" id="field-full_name">
           <Label
             className={cn("text-base font-semibold", isRTL && "text-right")}
           >
@@ -1057,7 +1077,7 @@ export default function QuotePage() {
           )}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4" id="field-mobile_number">
           <Label
             className={cn("text-base font-semibold", isRTL && "text-right")}
           >
@@ -1085,7 +1105,7 @@ export default function QuotePage() {
           )}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4" id="field-email">
           <Label
             className={cn("text-base font-semibold", isRTL && "text-right")}
           >

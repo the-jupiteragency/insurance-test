@@ -47,35 +47,7 @@ const initialState: QuoteState = {
 export function useQuoteState() {
   const [state, setState] = useState<QuoteState>(initialState)
 
-  // Load state from localStorage on mount
-  useEffect(() => {
-    try {
-      const savedState = localStorage.getItem(STORAGE_KEY)
-      if (savedState) {
-        const parsed = JSON.parse(savedState)
-        // Don't restore documents (files can't be serialized)
-        setState({
-          ...parsed,
-          documents: initialState.documents,
-        })
-      }
-    } catch (error) {
-      console.error("Failed to load saved state:", error)
-    }
-  }, [])
-
-  // Save state to localStorage whenever it changes (except documents)
-  useEffect(() => {
-    try {
-      const stateToSave = {
-        ...state,
-        documents: {}, // Don't save file objects
-      }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave))
-    } catch (error) {
-      console.error("Failed to save state:", error)
-    }
-  }, [state])
+  // Removed localStorage persistence to ensure the form resets on page reload/close.
 
   const updateState = (updates: Partial<QuoteState>) => {
     setState((prev) => ({ ...prev, ...updates }))

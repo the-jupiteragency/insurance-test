@@ -68,7 +68,7 @@ export default function BusinessInsuranceSection() {
             />
           </motion.div>
           <motion.div variants={fadeIn} className="flex-1 space-y-6 md:ml-8">
-            <h2 className="text-6xl font-light text-blue-800">
+            <h2 className="text-4xl md:text-6xl font-light text-blue-800">
               {content[language as keyof typeof content].title}
             </h2>
             {content[language as keyof typeof content].description.map(

@@ -186,19 +186,21 @@ export default function QuotePage() {
   // ]);
 
   const validateCarInfo = () => {
-    try {
-      carInfoSchema.parse(state.carInfo);
+    const result = carInfoSchema.safeParse(state.carInfo);
+    if (result.success) {
       setErrors({});
       return true;
-    } catch (error: any) {
+    } else {
       const fieldErrors: Record<string, string> = {};
-      error.errors?.forEach((err: any) => {
-        fieldErrors[err.path[0]] = err.message;
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0].toString()] = err.message;
+        }
       });
       setErrors(fieldErrors);
       
       // Scroll to the first error
-      const firstErrorField = error.errors?.[0]?.path[0];
+      const firstErrorField = result.error.errors[0]?.path[0]?.toString();
       if (firstErrorField) {
         const element = document.getElementById(`field-${firstErrorField}`);
         if (element) {
@@ -211,19 +213,21 @@ export default function QuotePage() {
   };
 
   const validateUserInfo = () => {
-    try {
-      userInfoSchema.parse(state.userInfo);
+    const result = userInfoSchema.safeParse(state.userInfo);
+    if (result.success) {
       setErrors({});
       return true;
-    } catch (error: any) {
+    } else {
       const fieldErrors: Record<string, string> = {};
-      error.errors?.forEach((err: any) => {
-        fieldErrors[err.path[0]] = err.message;
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0].toString()] = err.message;
+        }
       });
       setErrors(fieldErrors);
 
       // Scroll to the first error
-      const firstErrorField = error.errors?.[0]?.path[0];
+      const firstErrorField = result.error.errors[0]?.path[0]?.toString();
       if (firstErrorField) {
         const element = document.getElementById(`field-${firstErrorField}`);
         if (element) {

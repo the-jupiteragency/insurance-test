@@ -192,7 +192,7 @@ export default function QuotePage() {
       return true;
     } else {
       const fieldErrors: Record<string, string> = {};
-      result.error.errors.forEach((err) => {
+      result.error.issues.forEach((err) => {
         if (err.path[0]) {
           fieldErrors[err.path[0].toString()] = err.message;
         }
@@ -200,7 +200,7 @@ export default function QuotePage() {
       setErrors(fieldErrors);
       
       // Scroll to the first error
-      const firstErrorField = result.error.errors[0]?.path[0]?.toString();
+      const firstErrorField = result.error.issues[0]?.path[0]?.toString();
       if (firstErrorField) {
         const element = document.getElementById(`field-${firstErrorField}`);
         if (element) {
@@ -219,7 +219,7 @@ export default function QuotePage() {
       return true;
     } else {
       const fieldErrors: Record<string, string> = {};
-      result.error.errors.forEach((err) => {
+      result.error.issues.forEach((err) => {
         if (err.path[0]) {
           fieldErrors[err.path[0].toString()] = err.message;
         }
@@ -227,7 +227,7 @@ export default function QuotePage() {
       setErrors(fieldErrors);
 
       // Scroll to the first error
-      const firstErrorField = result.error.errors[0]?.path[0]?.toString();
+      const firstErrorField = result.error.issues[0]?.path[0]?.toString();
       if (firstErrorField) {
         const element = document.getElementById(`field-${firstErrorField}`);
         if (element) {
